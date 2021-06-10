@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="container-fluid p-0 shadow-sm">
+      <h1 class="text-center bg-primary py-5 text-light border-bottom border-2">Task Tracker</h1>
+    </div>
+    <div class="container">
+      <div class="row row-cols-4">
+        <h2 class="col text-center">Column</h2>
+        <h2 class="col text-center">Column</h2>
+        <h2 class="col text-center">Column</h2>
+        <h2 class="col text-center">Column</h2>
+        <div class="col">
+          <div class="card col">
+            <div class="card-body">
+              <h5 id="card-title-1" class="card-title">Card title</h5>
+              <h5><input type="text" id="card-title-editor-1" class="form-control d-none" value="" ></h5>
+              <p id="card-text-1" class="card-text">Some quick example text t.</p>
+              <textarea id="card-text-editor-1" class="form-control d-none"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          
+        </div>
+        <div class="col">
+          
+        </div>
+        <div class="col">
+          
+        </div>
+      </div>
+    </div>
+    <script>
+      function editTitle(e) {
+        var cardID = e.target.id.slice(-1);
+        var currentCardTitle = document.getElementById(e.target.id);
+        var editor = document.getElementById(e.target.id.slice(0, -1) + "editor-" + cardID);
+
+        // Replace editor input with current text.
+        editor.value = currentCardTitle.innerText;
+
+        // hide text, show editor
+        currentCardTitle.classList.add("d-none");
+        editor.classList.remove("d-none");
+
+      }
+
+      function changeTitle(e) {
+        if (e.keyCode === 13) {
+          // Get index of second dash for id name
+          var nthOccur = 0;
+          var indexDash = 0;
+          while (nthOccur < 2) {
+            indexDash =  e.target.id.indexOf('-', indexDash + 1);
+            nthOccur++;
+          }
+
+          var originalCardID = e.target.id.slice(0, indexDash + 1);
+
+          var cardIDNum = e.target.id.slice(-1);
+          var currentCardTitle = document.getElementById(originalCardID + cardIDNum);
+          var editor = document.getElementById(e.target.id);
+
+          // Replace card title input with input.
+          currentCardTitle.innerText = editor.value;
+
+          // hide text, show editor
+          currentCardTitle.classList.remove("d-none");
+          editor.classList.add("d-none");
+        }
+        // TODO: Add else if for shift + enter to add line break.
+      }
+      var cardTitle = document.getElementById("card-title-1");
+      var cardTitleEditor = document.getElementById("card-title-editor-1");
+      var cardText = document.getElementById("card-text-1");
+      var cardTextEditor = document.getElementById("card-text-editor-1");
+
+      // TODO: Add loop to add all event listeners
+      // TODO: change editTitle and changeTitle names.
+      cardTitle.addEventListener("click", editTitle);
+      cardTitleEditor.addEventListener("keydown", changeTitle)
+      cardText.addEventListener("click", editTitle);
+      cardTextEditor.addEventListener("keydown", changeTitle)
+
+      
+
+
+
+    </script>
+
+
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
+
+    <script>
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+        apiKey: "AIzaSyCSRur-JQrtkjh6-wGVUVqQMwOE3EnSe4Y",
+        authDomain: "task-tracker-7fd5d.firebaseapp.com",
+        projectId: "task-tracker-7fd5d",
+        storageBucket: "task-tracker-7fd5d.appspot.com",
+        messagingSenderId: "612088113655",
+        appId: "1:612088113655:web:269f013ee55f076f7ba6f2",
+        measurementId: "G-1S7Q4CXGSZ"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    </script>
+
+    <script>
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    </script>
+
+    <!-- The surrounding HTML is left untouched by FirebaseUI.
+     Your app may use that space for branding, controls and other customizations.-->
+     <div id="firebaseui-auth-container"></div>
+     <div id="loader">Loading...</div>
+
+    <script>
+        // TODO: Add github, twitter and facebook sign in later.
+        
+        var uiConfig = {
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                    // User successfully signed in.
+                    // Return type determines whether we continue the redirect automatically
+                    // or whether we leave that to developer to handle.
+                    return true;
+                },
+                uiShown: function() {
+                    // The widget is rendered.
+                    // Hide the loader.
+                    document.getElementById('loader').style.display = 'none';
+                }
+            },
+            // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+            signInFlow: 'popup',
+            signInSuccessUrl: 'https://www.google.com/',
+            signInOptions: [
+                // Leave the lines as is for the providers you want to offer your users.
+                firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            ],
+            // Terms of service url.
+            tosUrl: '<your-tos-url>',
+            // Privacy policy url.
+            privacyPolicyUrl: '<your-privacy-policy-url>'
+            };
+        // The start method will wait until the DOM is loaded.
+        ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  </body>
+</html>
