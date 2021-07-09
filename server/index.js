@@ -1,10 +1,25 @@
-const express = require("express");
+const express = require('express');
+const bodyParser = require('body-parser');
+var cors = require('cors');
 const app = express();
+const db = require('./queries');
+const port = 3000;
 
-// first argument is the endpoint
-app.get('/', (req, res) => {
+app.use(cors());
 
+app.use(bodyParser.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+)
+
+app.get('/', (request, response) => {
+    response.json({ info: 'Node.js, Express, and Postgres API' })
+  })
+
+app.get('/tasks', db.getTasks);
+
+app.listen(port, () => {
+console.log(`App running on port ${port}.`)
 })
-
-// Message to indicate backend server is live.
-app.listen(3000, () => console.log('Server live and listening on port 3000.'));

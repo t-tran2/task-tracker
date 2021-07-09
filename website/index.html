@@ -25,14 +25,15 @@
         <h2 class="col text-center">Completed</h2>
         <h2 class="col text-center">Accepted</h2>
         <div id="todo-col" class="col">
-          <div id="card-1" class="task card my-2">
+          <!-- Below is a sample task card. -->
+          <!-- <div id="card-1" class="task card my-2">
             <div id="card-body-1" class="card-body">
               <h5 id="card-title-1" class="card-title">Card title</h5>
               <h5><input type="text" id="card-title-editor-1" class="form-control d-none" value="" ></h5>
               <p id="card-text-1" class="card-text">Some quick example text t.</p>
               <textarea id="card-text-editor-1" class="form-control d-none"></textarea>
             </div>
-          </div>
+          </div> -->
           <div id="create-task-todo" class="create-task card card-body bg-light p-1">
             <div>Click to add a new task</div>
           </div>
@@ -182,6 +183,62 @@
 
 
 
+    </script>
+    <script>
+      // Loading Task cards.
+      const xhttp = new XMLHttpRequest();
+
+      xhttp.open("GET", "http://localhost:3000/tasks", false);
+      xhttp.send();
+
+      const tasks = JSON.parse(xhttp.responseText);
+      for (let task of tasks) {
+        var cardDiv = document.createElement("div");
+        cardDiv.id = "card-" + task.id;
+        cardDiv.classList.add("task", "card", "my-2");
+
+        var cardBody = document.createElement("div");
+        cardBody.id = "card-body-" + task.id;
+        cardBody.classList.add("card-body");
+
+        var cardTitle = document.createElement("h5");
+        cardTitle.id = "card-title-" + task.id;
+        cardTitle.classList.add("card-title");
+        cardTitle.appendChild(document.createTextNode(task.title));
+
+        var cardTitleEditor = document.createElement("h5");
+        var cardTitleEditorInput = document.createElement("input");
+        cardTitleEditorInput.type = "text";
+        cardTitleEditorInput.id = "card-title-editor-" + task.id;
+        cardTitleEditorInput.classList.add("form-control", "d-none");
+        cardTitleEditorInput.value = "";
+
+        var cardText = document.createElement("p");
+        cardText.id = "card-text-" + task.id;
+        cardText.classList.add("card-text");
+        cardText.appendChild(document.createTextNode(task.text));
+
+        var cardTextEditor = document.createElement("textarea");
+        cardTextEditor.id = "card-text-editor-" + task.id;
+        cardTextEditor.classList.add("form-control", "d-none");
+
+        // Append card body together, then append card body into card div.
+        cardBody.appendChild(cardTitle);
+        cardTitleEditor.appendChild(cardTitleEditorInput);
+        cardBody.appendChild(cardTitleEditor);
+        cardBody.appendChild(cardText);
+        cardBody.appendChild(cardTextEditor);
+        cardDiv.appendChild(cardBody);
+
+        // Add event listeners.
+        cardTitle.addEventListener("click", editText);
+        cardTitleEditor.addEventListener("keydown", changeText);
+        cardText.addEventListener("click", editText);
+        cardTextEditor.addEventListener("keydown", changeText);
+
+        var createTaskElem = document.getElementById('create-task-todo');
+        createTaskElem.before(cardDiv);
+      }
     </script>
 
 
