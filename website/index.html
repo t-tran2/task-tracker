@@ -55,6 +55,68 @@
         </div>
       </div>
     </div>
+
+    <script>
+      var numOfCards = 0;
+      // Loading Task cards.
+      const xhttp = new XMLHttpRequest();
+
+      xhttp.open("GET", "http://localhost:3000/tasks", true);
+      xhttp.onload = function() {
+        const tasks = JSON.parse(xhttp.response);
+        for (let task of tasks) {
+          var cardDiv = document.createElement("div");
+          cardDiv.id = "card-" + task.id;
+          cardDiv.classList.add("task", "card", "my-2");
+
+          var cardBody = document.createElement("div");
+          cardBody.id = "card-body-" + task.id;
+          cardBody.classList.add("card-body");
+
+          var cardTitle = document.createElement("h5");
+          cardTitle.id = "card-title-" + task.id;
+          cardTitle.classList.add("card-title");
+          cardTitle.appendChild(document.createTextNode(task.title));
+
+          var cardTitleEditor = document.createElement("h5");
+          var cardTitleEditorInput = document.createElement("input");
+          cardTitleEditorInput.type = "text";
+          cardTitleEditorInput.id = "card-title-editor-" + task.id;
+          cardTitleEditorInput.classList.add("form-control", "d-none");
+          cardTitleEditorInput.value = "";
+
+          var cardText = document.createElement("p");
+          cardText.id = "card-text-" + task.id;
+          cardText.classList.add("card-text");
+          cardText.appendChild(document.createTextNode(task.text));
+
+          var cardTextEditor = document.createElement("textarea");
+          cardTextEditor.id = "card-text-editor-" + task.id;
+          cardTextEditor.classList.add("form-control", "d-none");
+
+          // Append card body together, then append card body into card div.
+          cardBody.appendChild(cardTitle);
+          cardTitleEditor.appendChild(cardTitleEditorInput);
+          cardBody.appendChild(cardTitleEditor);
+          cardBody.appendChild(cardText);
+          cardBody.appendChild(cardTextEditor);
+          cardDiv.appendChild(cardBody);
+
+          // Add event listeners.
+          cardTitle.addEventListener("click", editText);
+          cardTitleEditor.addEventListener("keydown", changeText);
+          cardText.addEventListener("click", editText);
+          cardTextEditor.addEventListener("keydown", changeText);
+
+          var createTaskElem = document.getElementById('create-task-todo');
+          createTaskElem.before(cardDiv);
+          numOfCards = numOfCards + 1;
+        }
+      }
+      xhttp.send();
+      
+    </script>
+
     <script>
       // Functions
       function editText(e) {
@@ -102,10 +164,11 @@
       var cardTextEditor = document.getElementById("card-text-editor-1");
 
       // TODO: Add loop to add all event listeners
-      cardTitle.addEventListener("click", editText);
-      cardTitleEditor.addEventListener("keydown", changeText);
-      cardText.addEventListener("click", editText);
-      cardTextEditor.addEventListener("keydown", changeText);
+      // Commented out because these even listeners are no longer needed because no default cards.
+      // cardTitle.addEventListener("click", editText);
+      // cardTitleEditor.addEventListener("keydown", changeText);
+      // cardText.addEventListener("click", editText);
+      // cardTextEditor.addEventListener("keydown", changeText);
 
 
       // <div id="card-1" class="task card my-2">
@@ -117,8 +180,7 @@
       //   </div>
       // </div>
       // Creating a new card.
-      var cardElements = document.getElementsByClassName("task");
-      var numOfCards = cardElements.length;
+      
 
       function createTask(e) {
         var idNum = numOfCards + 1;
@@ -184,62 +246,7 @@
 
 
     </script>
-    <script>
-      // Loading Task cards.
-      const xhttp = new XMLHttpRequest();
-
-      xhttp.open("GET", "http://localhost:3000/tasks", false);
-      xhttp.send();
-
-      const tasks = JSON.parse(xhttp.responseText);
-      for (let task of tasks) {
-        var cardDiv = document.createElement("div");
-        cardDiv.id = "card-" + task.id;
-        cardDiv.classList.add("task", "card", "my-2");
-
-        var cardBody = document.createElement("div");
-        cardBody.id = "card-body-" + task.id;
-        cardBody.classList.add("card-body");
-
-        var cardTitle = document.createElement("h5");
-        cardTitle.id = "card-title-" + task.id;
-        cardTitle.classList.add("card-title");
-        cardTitle.appendChild(document.createTextNode(task.title));
-
-        var cardTitleEditor = document.createElement("h5");
-        var cardTitleEditorInput = document.createElement("input");
-        cardTitleEditorInput.type = "text";
-        cardTitleEditorInput.id = "card-title-editor-" + task.id;
-        cardTitleEditorInput.classList.add("form-control", "d-none");
-        cardTitleEditorInput.value = "";
-
-        var cardText = document.createElement("p");
-        cardText.id = "card-text-" + task.id;
-        cardText.classList.add("card-text");
-        cardText.appendChild(document.createTextNode(task.text));
-
-        var cardTextEditor = document.createElement("textarea");
-        cardTextEditor.id = "card-text-editor-" + task.id;
-        cardTextEditor.classList.add("form-control", "d-none");
-
-        // Append card body together, then append card body into card div.
-        cardBody.appendChild(cardTitle);
-        cardTitleEditor.appendChild(cardTitleEditorInput);
-        cardBody.appendChild(cardTitleEditor);
-        cardBody.appendChild(cardText);
-        cardBody.appendChild(cardTextEditor);
-        cardDiv.appendChild(cardBody);
-
-        // Add event listeners.
-        cardTitle.addEventListener("click", editText);
-        cardTitleEditor.addEventListener("keydown", changeText);
-        cardText.addEventListener("click", editText);
-        cardTextEditor.addEventListener("keydown", changeText);
-
-        var createTaskElem = document.getElementById('create-task-todo');
-        createTaskElem.before(cardDiv);
-      }
-    </script>
+    
 
 
     <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
@@ -299,7 +306,7 @@
             },
             // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
             signInFlow: 'popup',
-            signInSuccessUrl: 'https://www.google.com/',
+            signInSuccessUrl: 'http://127.0.0.1:5500/website/index.html',
             signInOptions: [
                 // Leave the lines as is for the providers you want to offer your users.
                 firebase.auth.EmailAuthProvider.PROVIDER_ID,
@@ -312,6 +319,7 @@
             };
         // The start method will wait until the DOM is loaded.
         ui.start('#firebaseui-auth-container', uiConfig);
+        
     </script>
 
 

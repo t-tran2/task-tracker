@@ -17,6 +17,11 @@ const getTasks = (request, response) => {
     })
 }
 
+const auth = (request, response) => {
+    response.json(request.body);
+}
+
 module.exports = {
-    getTasks
+    getTasks,
+    auth
 }
