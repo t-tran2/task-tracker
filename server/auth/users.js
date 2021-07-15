@@ -11,56 +11,92 @@ const pool = new Pool({
 
 // Check if valid user.
 function validUser(user) {
-    const validEmail = typeof user.email == "string" && user.email.trim() != "";
-    const validPassword =
-      typeof user.password == "string" &&
-      user.password.trim() != "" &&
-      user.password.trim().length >= 6;
-    return validEmail && validPassword;
-  }
-  
-  // Internal functions on validating users
-  const getUserByEmail = (req, res, next) => {
-    if (validUser(req.body)) {
-      // Query for users with email given by client.
-      pool.query(
-        "SELECT * FROM users WHERE email = '" + req.body.email + "'",
-        (error, results) => {
-          if (error) {
-            throw error;
-          }
-          // Determine if email is unique.
-          if (results.rows.length === 0) {
-            // Hash Password
-            bcrypt.hash(req.body.password, 10).then((hash) => {
-              // Post request to create entry in DB.
-              pool.query(
-                "INSERT INTO users (email, password, date) VALUES ($1, $2, " +
-                  "to_timestamp($3 / 1000.0)) RETURNING user_id",
-                [req.body.email, hash, Date.now()],
-                (error, results) => {
-                  if (error) {
-                    throw error;
-                  }
-                  res.status(201).json({
-                    id: results.rows[0].user_id,
-                    message: "User added to DB.",
-                  });
-                }
-              );
-            });
-          } else {
-            next(new Error("Email in use"));
-          }
-        }
-      );
-    } else {
-      res.json({
-        message: "invalid email or password",
-      });
-    }
-  };
+  const validEmail = typeof user.email == "string" && user.email.trim() != "";
+  const validPassword =
+    typeof user.password == "string" &&
+    user.password.trim() != "" &&
+    user.password.trim().length >= 6;
+  return validEmail && validPassword;
+}
 
-  module.exports = {
-      getUserByEmail
+// Internal functions on validating users
+const createUser = (req, res, next) => {
+  if (validUser(req.body)) {
+    // Query for users with email given by client.
+    pool.query(
+      "SELECT * FROM users WHERE email = '" + req.body.email + "'",
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        // Determine if email is unique.
+        if (results.rows.length === 0) {
+          // Hash Password
+          bcrypt.hash(req.body.password, 10).then((hash) => {
+            // Post request to create entry in DB.
+            pool.query(
+              "INSERT INTO users (email, password, date) VALUES ($1, $2, " +
+                "to_timestamp($3 / 1000.0)) RETURNING user_id",
+              [req.body.email, hash, Date.now()],
+              (error, results) => {
+                if (error) {
+                  throw error;
+                }
+                res.status(201).json({
+                  id: results.rows[0].user_id,
+                  message: "User added to DB.",
+                });
+              }
+            );
+          });
+        } else {
+          next(new Error("Email in use"));
+        }
+      }
+    );
+  } else {
+    next(new Error("invalid email or password"));
   }
+};
+
+const loginUser = (req, res, next) => {
+  if (validUser(req.body)) {
+    pool.query(
+      "SELECT * FROM users WHERE email = '" + req.body.email + "'",
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        // Determine if email is unique.
+        if (results.rows.length !== 0) {
+          // compare password with hashed password
+          bcrypt
+            .compare(req.body.password, results.rows[0].password)
+            .then((result) => {
+              if (result) {
+                res.cookie("user_id", results.rows[0].user_id, {
+                    httpOnly: true,
+                    signed: true,
+                    // secure: true - secure in production.
+                });
+                res.json({
+                  message: "logged in",
+                });
+              } else {
+                next(new Error("Incorrect password."));
+              }
+            });
+        } else {
+          next(new Error("Invalid login"));
+        }
+      }
+    );
+  } else {
+    next(new Error("invalid email or password"));
+  }
+};
+
+module.exports = {
+  createUser,
+  loginUser,
+};

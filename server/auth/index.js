@@ -9,7 +9,8 @@ router.get('/', (req,res) => {
     });
 });
 
-// Sign up
-router.post('/signup', User.getUserByEmail);
+router.post('/signup', User.createUser);
+
+router.post('/login', User.loginUser);
 
 module.exports = router;
