@@ -78,7 +78,7 @@ const loginUser = (req, res, next) => {
                 res.cookie("user_id", results.rows[0].user_id, {
                   httpOnly: true,
                   signed: true,
-                  // secure: true - secure in production.
+                  secure: true
                 });
                 res.json({
                   message: "logged in",
