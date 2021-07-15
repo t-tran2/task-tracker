@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../queries');
+const User = require('./users');
 
 // Route paths are prepended with '/auth'
 router.get('/', (req,res) => {
