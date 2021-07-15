@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../queries')
+const User = require('../queries');
 
 // Route paths are prepended with '/auth'
 router.get('/', (req,res) => {
@@ -8,8 +8,6 @@ router.get('/', (req,res) => {
         message: 'auth'
     });
 });
-
-
 
 // Sign up
 router.post('/signup', User.getUserByEmail);
