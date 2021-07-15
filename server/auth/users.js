@@ -1,12 +1,13 @@
+require("dotenv").config();
 const Pool = require("pg").Pool;
 const bcrypt = require("bcrypt");
 
 const pool = new Pool({
-  user: "me",
-  host: "localhost",
-  database: "task_tracker_db",
-  password: "password",
-  port: 5432,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
+  port: process.env.DB_PORT5432,
 });
 
 // Check if valid user.
@@ -75,9 +76,9 @@ const loginUser = (req, res, next) => {
             .then((result) => {
               if (result) {
                 res.cookie("user_id", results.rows[0].user_id, {
-                    httpOnly: true,
-                    signed: true,
-                    // secure: true - secure in production.
+                  httpOnly: true,
+                  signed: true,
+                  // secure: true - secure in production.
                 });
                 res.json({
                   message: "logged in",
