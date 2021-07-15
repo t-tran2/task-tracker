@@ -5,4 +5,8 @@ psql -U postgres
 psql -d postgres -U me
 
 # .gitignore
-Ignored queries.js because of sensitive information.
+Ignored .env because it contains sensitive information for DB.
+
+# API URL
+change API_URL in shared.js to correct url.
+

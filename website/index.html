@@ -1,22 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
 
     <!-- Firebase Auth -->
     <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css"
+    />
 
     <title>Hello, world!</title>
   </head>
   <body>
     <div class="container-fluid p-0 shadow-sm">
-      <h1 class="text-center bg-primary py-5 text-light border-bottom border-2">Task Tracker</h1>
+      <h1 class="text-center bg-primary py-5 text-light border-bottom border-2">
+        Task Tracker
+      </h1>
     </div>
     <div class="container">
       <div class="row row-cols-4">
@@ -34,35 +45,48 @@
               <textarea id="card-text-editor-1" class="form-control d-none"></textarea>
             </div>
           </div> -->
-          <div id="create-task-todo" class="create-task card card-body bg-light p-1">
+          <div
+            id="create-task-todo"
+            class="create-task card card-body bg-light p-1"
+          >
             <div>Click to add a new task</div>
           </div>
         </div>
         <div id="inprogress-col" class="col">
-          <div id="create-task-inprogress" class="create-task card card-body bg-light p-1">
+          <div
+            id="create-task-inprogress"
+            class="create-task card card-body bg-light p-1"
+          >
             <div>Click to add a new task</div>
           </div>
         </div>
         <div id="completed-col" class="col">
-          <div id="create-task-completed" class="create-task card card-body bg-light p-1">
+          <div
+            id="create-task-completed"
+            class="create-task card card-body bg-light p-1"
+          >
             <div>Click to add a new task</div>
           </div>
         </div>
         <div id="accepted-col" class="col">
-          <div id="create-task-accepted" class="create-task card card-body bg-light p-1">
+          <div
+            id="create-task-accepted"
+            class="create-task card card-body bg-light p-1"
+          >
             <div>Click to add a new task</div>
           </div>
         </div>
       </div>
     </div>
 
+    <script src="scripts/shared.js" charset="utf-8"></script>
     <script>
       var numOfCards = 0;
       // Loading Task cards.
       const xhttp = new XMLHttpRequest();
 
       xhttp.open("GET", "http://localhost:3000/tasks", true);
-      xhttp.onload = function() {
+      xhttp.onload = function () {
         const tasks = JSON.parse(xhttp.response);
         for (let task of tasks) {
           var cardDiv = document.createElement("div");
@@ -108,13 +132,12 @@
           cardText.addEventListener("click", editText);
           cardTextEditor.addEventListener("keydown", changeText);
 
-          var createTaskElem = document.getElementById('create-task-todo');
+          var createTaskElem = document.getElementById("create-task-todo");
           createTaskElem.before(cardDiv);
           numOfCards = numOfCards + 1;
         }
-      }
+      };
       xhttp.send();
-      
     </script>
 
     <script>
@@ -122,7 +145,9 @@
       function editText(e) {
         var cardID = e.target.id.slice(-1);
         var currentCardTitle = document.getElementById(e.target.id);
-        var editor = document.getElementById(e.target.id.slice(0, -1) + "editor-" + cardID);
+        var editor = document.getElementById(
+          e.target.id.slice(0, -1) + "editor-" + cardID
+        );
 
         // Replace editor input with current text.
         editor.value = currentCardTitle.innerText;
@@ -130,7 +155,6 @@
         // hide text, show editor
         currentCardTitle.classList.add("d-none");
         editor.classList.remove("d-none");
-
       }
 
       function changeText(e) {
@@ -139,14 +163,16 @@
           var nthOccur = 0;
           var indexDash = 0;
           while (nthOccur < 2) {
-            indexDash =  e.target.id.indexOf('-', indexDash + 1);
+            indexDash = e.target.id.indexOf("-", indexDash + 1);
             nthOccur++;
           }
 
           var originalCardID = e.target.id.slice(0, indexDash + 1);
 
           var cardIDNum = e.target.id.slice(-1);
-          var currentCardTitle = document.getElementById(originalCardID + cardIDNum);
+          var currentCardTitle = document.getElementById(
+            originalCardID + cardIDNum
+          );
           var editor = document.getElementById(e.target.id);
 
           // Replace card title input with input.
@@ -170,7 +196,6 @@
       // cardText.addEventListener("click", editText);
       // cardTextEditor.addEventListener("keydown", changeText);
 
-
       // <div id="card-1" class="task card my-2">
       //   <div id="card-body-1" class="card-body">
       //     <h5 id="card-title-1" class="card-title">Card title</h5>
@@ -180,7 +205,6 @@
       //   </div>
       // </div>
       // Creating a new card.
-      
 
       function createTask(e) {
         var idNum = numOfCards + 1;
@@ -196,7 +220,9 @@
         var cardTitle = document.createElement("h5");
         cardTitle.id = "card-title-" + idNum;
         cardTitle.classList.add("card-title");
-        cardTitle.appendChild(document.createTextNode("Double-click to change task title."));
+        cardTitle.appendChild(
+          document.createTextNode("Double-click to change task title.")
+        );
 
         var cardTitleEditor = document.createElement("h5");
         var cardTitleEditorInput = document.createElement("input");
@@ -208,7 +234,9 @@
         var cardText = document.createElement("p");
         cardText.id = "card-text-" + idNum;
         cardText.classList.add("card-text");
-        cardText.appendChild(document.createTextNode("Double-click to change task description."))
+        cardText.appendChild(
+          document.createTextNode("Double-click to change task description.")
+        );
 
         var cardTextEditor = document.createElement("textarea");
         cardTextEditor.id = "card-text-editor-" + idNum;
@@ -238,16 +266,10 @@
 
       // Event listener for creating card onclick
       var createTaskCards = document.getElementsByClassName("create-task");
-      for (var i=0; i < createTaskCards.length; i++) {
-        createTaskCards[i].addEventListener("click", createTask)
+      for (var i = 0; i < createTaskCards.length; i++) {
+        createTaskCards[i].addEventListener("click", createTask);
       }
-      
-
-
-
     </script>
-    
-
 
     <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
 
@@ -261,69 +283,71 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
 
     <script>
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    var firebaseConfig = {
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      var firebaseConfig = {
         apiKey: "AIzaSyCSRur-JQrtkjh6-wGVUVqQMwOE3EnSe4Y",
         authDomain: "task-tracker-7fd5d.firebaseapp.com",
         projectId: "task-tracker-7fd5d",
         storageBucket: "task-tracker-7fd5d.appspot.com",
         messagingSenderId: "612088113655",
         appId: "1:612088113655:web:269f013ee55f076f7ba6f2",
-        measurementId: "G-1S7Q4CXGSZ"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
+        measurementId: "G-1S7Q4CXGSZ",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
     </script>
 
     <script>
-        // Initialize the FirebaseUI Widget using Firebase.
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      // Initialize the FirebaseUI Widget using Firebase.
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
     </script>
 
     <!-- The surrounding HTML is left untouched by FirebaseUI.
      Your app may use that space for branding, controls and other customizations.-->
-     <div id="firebaseui-auth-container"></div>
-     <div id="loader">Loading...</div>
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
 
     <script>
-        // TODO: Add github, twitter and facebook sign in later.
-        
-        var uiConfig = {
-            callbacks: {
-                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-                    // User successfully signed in.
-                    // Return type determines whether we continue the redirect automatically
-                    // or whether we leave that to developer to handle.
-                    return true;
-                },
-                uiShown: function() {
-                    // The widget is rendered.
-                    // Hide the loader.
-                    document.getElementById('loader').style.display = 'none';
-                }
-            },
-            // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-            signInFlow: 'popup',
-            signInSuccessUrl: 'http://127.0.0.1:5500/website/index.html',
-            signInOptions: [
-                // Leave the lines as is for the providers you want to offer your users.
-                firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            ],
-            // Terms of service url.
-            tosUrl: '<your-tos-url>',
-            // Privacy policy url.
-            privacyPolicyUrl: '<your-privacy-policy-url>'
-            };
-        // The start method will wait until the DOM is loaded.
-        ui.start('#firebaseui-auth-container', uiConfig);
-        
+      // TODO: Add github, twitter and facebook sign in later.
+
+      var uiConfig = {
+        callbacks: {
+          signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+            // User successfully signed in.
+            // Return type determines whether we continue the redirect automatically
+            // or whether we leave that to developer to handle.
+            return true;
+          },
+          uiShown: function () {
+            // The widget is rendered.
+            // Hide the loader.
+            document.getElementById("loader").style.display = "none";
+          },
+        },
+        // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+        signInFlow: "popup",
+        signInSuccessUrl: "http://127.0.0.1:5500/website/index.html",
+        signInOptions: [
+          // Leave the lines as is for the providers you want to offer your users.
+          firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        ],
+        // Terms of service url.
+        tosUrl: "<your-tos-url>",
+        // Privacy policy url.
+        privacyPolicyUrl: "<your-privacy-policy-url>",
+      };
+      // The start method will wait until the DOM is loaded.
+      ui.start("#firebaseui-auth-container", uiConfig);
     </script>
 
-
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
