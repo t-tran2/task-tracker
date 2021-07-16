@@ -9,13 +9,22 @@ const pool = new Pool({
     port: process.env.DB_PORT,
   });
 
-const getTasks = (request, response) => {
-  pool.query("SELECT * FROM tasks ORDER BY id ASC", (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.status(200).json(results.rows);
-  });
+const getTasks = (req, res) => {
+  if (!isNaN(req.params.id)) {
+    pool.query("SELECT * FROM tasks WHERE user_id = '" + req.params.id + "'", (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200)
+      res.json(results.rows);
+    });
+  } else {
+    res.status(500)
+    res.json({
+      id: req.params.id,
+      message:"Invalid ID"
+    });
+  }
 };
 
 module.exports = {

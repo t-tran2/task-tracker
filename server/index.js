@@ -7,6 +7,8 @@ const app = express();
 const db = require("./queries");
 const port = 3000;
 const auth = require("./auth/index");
+var authMiddleware = require('./auth/middleware');
+const users = require("./auth/users");
 
 // Initialize Firebase SDK
 admin.initializeApp({
@@ -14,7 +16,7 @@ admin.initializeApp({
   databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
 });
 
-app.use(cors());
+
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -24,19 +26,22 @@ app.use(
 // Encrypt cookie
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+app.use(cors({
+  origin: 'http://localhost:8080',
+  credentials: true
+}));
+
 // Routers
 app.use("/auth", auth);
 
 // Routes
-app.get("/", (request, response) => {
-  response.json({ info: "Node.js, Express, and Postgres API" });
-});
+app.get("/user/:id", users.getUser);
 
-app.get("/tasks", db.getTasks);
+app.get("/tasks/:id", authMiddleware.ensureLoggedIn, db.getTasks);
 
 // Error handler
 app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
+  res.status(res.statusCode|| err.status || 500);
   res.json({
     message: err.message,
   });

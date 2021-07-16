@@ -10,3 +10,6 @@ Ignored .env because it contains sensitive information for DB.
 # API URL
 change API_URL in shared.js to correct url.
 
+# cross origin cookies
+Make sure root address is the same for node js app and website server. Example:
+'localhost'.

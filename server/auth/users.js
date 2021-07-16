@@ -74,13 +74,15 @@ const loginUser = (req, res, next) => {
           bcrypt
             .compare(req.body.password, results.rows[0].password)
             .then((result) => {
+              var userId = results.rows[0].user_id;
               if (result) {
-                res.cookie("user_id", results.rows[0].user_id, {
+                res.cookie("user_id", userId, {
                   httpOnly: true,
                   signed: true,
-                  secure: true
+                  secure: true,
                 });
                 res.json({
+                  id: userId,
                   message: "logged in",
                 });
               } else {
@@ -97,7 +99,36 @@ const loginUser = (req, res, next) => {
   }
 };
 
+const getUser = (req, res) => {
+  if (!isNaN(req.params.id)) {
+    pool.query(
+      "SELECT * FROM users WHERE user_id = '" + req.params.id +"'",
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        if (results.rows.length === 1 ) {
+          var userData = results.rows[0];
+          delete userData.password;
+          res.json(userData);
+        } else {
+          res.status(404);
+          res.json({
+            message:"User Not Found."
+          });
+        }
+      }
+    );
+  } else {
+    res.status(500);
+    res.json({
+      message:"Invalid ID"
+    });
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
+  getUser,
 };
