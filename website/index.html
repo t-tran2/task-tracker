@@ -209,7 +209,9 @@
       // Creating a new card.
 
       function createTask(e) {
-        var idNum = numOfCards + 1;
+        var cardElems = document.getElementsByClassName("task");
+        var idNum = cardElems.length;
+        idNum++;
 
         var cardDiv = document.createElement("div");
         cardDiv.id = "card-" + idNum;
@@ -263,7 +265,7 @@
         cardTextEditor.addEventListener("keydown", changeText);
 
         // Increase numOfCards
-        numOfCards++;
+        // numOfCards++;
       }
 
       // Event listener for creating card onclick
