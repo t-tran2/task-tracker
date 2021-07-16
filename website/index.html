@@ -82,65 +82,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="scripts/shared.js" charset="utf-8"></script>
     <script src="./scripts/tasks.js"></script>
-    <!-- <script>
-      var numOfCards = 0;
-      // Loading Task cards.
-      const xhttp = new XMLHttpRequest();
-
-      xhttp.open("GET", "http://localhost:3000/tasks", true);
-      xhttp.onload = function () {
-        const tasks = JSON.parse(xhttp.response);
-        for (let task of tasks) {
-          var cardDiv = document.createElement("div");
-          cardDiv.id = "card-" + task.id;
-          cardDiv.classList.add("task", "card", "my-2");
-
-          var cardBody = document.createElement("div");
-          cardBody.id = "card-body-" + task.id;
-          cardBody.classList.add("card-body");
-
-          var cardTitle = document.createElement("h5");
-          cardTitle.id = "card-title-" + task.id;
-          cardTitle.classList.add("card-title");
-          cardTitle.appendChild(document.createTextNode(task.title));
-
-          var cardTitleEditor = document.createElement("h5");
-          var cardTitleEditorInput = document.createElement("input");
-          cardTitleEditorInput.type = "text";
-          cardTitleEditorInput.id = "card-title-editor-" + task.id;
-          cardTitleEditorInput.classList.add("form-control", "d-none");
-          cardTitleEditorInput.value = "";
-
-          var cardText = document.createElement("p");
-          cardText.id = "card-text-" + task.id;
-          cardText.classList.add("card-text");
-          cardText.appendChild(document.createTextNode(task.text));
-
-          var cardTextEditor = document.createElement("textarea");
-          cardTextEditor.id = "card-text-editor-" + task.id;
-          cardTextEditor.classList.add("form-control", "d-none");
-
-          // Append card body together, then append card body into card div.
-          cardBody.appendChild(cardTitle);
-          cardTitleEditor.appendChild(cardTitleEditorInput);
-          cardBody.appendChild(cardTitleEditor);
-          cardBody.appendChild(cardText);
-          cardBody.appendChild(cardTextEditor);
-          cardDiv.appendChild(cardBody);
-
-          // Add event listeners.
-          cardTitle.addEventListener("click", editText);
-          cardTitleEditor.addEventListener("keydown", changeText);
-          cardText.addEventListener("click", editText);
-          cardTextEditor.addEventListener("keydown", changeText);
-
-          var createTaskElem = document.getElementById("create-task-todo");
-          createTaskElem.before(cardDiv);
-          numOfCards = numOfCards + 1;
-        }
-      };
-      xhttp.send();
-    </script> -->
 
     <script>
       // Functions
