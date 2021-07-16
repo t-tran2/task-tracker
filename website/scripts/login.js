@@ -8,7 +8,7 @@ $(() => {
         window.location = `/?id=${result.id}`;
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         showErrorMessage(error.responseJSON.message);
       });
   });

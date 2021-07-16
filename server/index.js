@@ -31,6 +31,8 @@ app.use(cors({
   credentials: true
 }));
 
+
+
 // Routers
 app.use("/auth", auth);
 
@@ -39,9 +41,16 @@ app.get("/user/:id", users.getUser);
 
 app.get("/tasks/:id", authMiddleware.ensureLoggedIn, db.getTasks);
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
 // Error handler
-app.use(function (err, req, res, next) {
-  res.status(res.statusCode|| err.status || 500);
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
   res.json({
     message: err.message,
   });

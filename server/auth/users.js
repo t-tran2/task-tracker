@@ -90,7 +90,7 @@ const loginUser = (req, res, next) => {
               }
             });
         } else {
-          next(new Error("Invalid login"));
+          next(new Error("Email not found."));
         }
       }
     );
