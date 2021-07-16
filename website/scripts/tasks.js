@@ -65,7 +65,7 @@ function createCards(tasks) {
 function loadTasks(id) {
   $.get(`${API_URL}/tasks/${id}`, function (results) {
       createCards(results);
-  });
+  }).catch(handleError);
 }
 
 function handleError(error) {

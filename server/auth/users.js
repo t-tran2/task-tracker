@@ -102,19 +102,19 @@ const loginUser = (req, res, next) => {
 const getUser = (req, res) => {
   if (!isNaN(req.params.id)) {
     pool.query(
-      "SELECT * FROM users WHERE user_id = '" + req.params.id +"'",
+      "SELECT * FROM users WHERE user_id = '" + req.params.id + "'",
       (error, results) => {
         if (error) {
           throw error;
         }
-        if (results.rows.length === 1 ) {
+        if (results.rows.length === 1) {
           var userData = results.rows[0];
           delete userData.password;
           res.json(userData);
         } else {
           res.status(404);
           res.json({
-            message:"User Not Found."
+            message: "User Not Found.",
           });
         }
       }
@@ -122,7 +122,7 @@ const getUser = (req, res) => {
   } else {
     res.status(500);
     res.json({
-      message:"Invalid ID"
+      message: "Invalid ID",
     });
   }
 };
