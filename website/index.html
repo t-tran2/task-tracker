@@ -25,10 +25,16 @@
   </head>
   <body>
     <div class="container-fluid p-0 shadow-sm">
+      <a href="/logout.html">
+        <button type="button" class="btn btn-success btn-light float-end m-2">
+          Log out
+        </button>
+      </a>
       <h1 class="text-center bg-primary py-5 text-light border-bottom border-2">
         Task Tracker
       </h1>
     </div>
+
     <div class="container">
       <div class="row row-cols-4">
         <h2 class="col text-center">Todo</h2>
@@ -52,9 +58,9 @@
             <div>Click to add a new task</div>
           </div>
         </div>
-        <div id="inprogress-col" class="col">
+        <div id="in-progress-col" class="col">
           <div
-            id="create-task-inprogress"
+            id="create-task-in-progress"
             class="create-task card card-body bg-light p-1"
           >
             <div>Click to add a new task</div>
@@ -153,63 +159,20 @@
         var cardElems = document.getElementsByClassName("task");
         var idNum = cardElems.length;
         idNum++;
+        var title = "Double-click to change task title."
+        var text = "Double-click to change task description."
 
-        var cardDiv = document.createElement("div");
-        cardDiv.id = "card-" + idNum;
-        cardDiv.classList.add("task", "card", "my-2");
+        var cardDiv = createCardDiv(idNum, title, text);
 
-        var cardBody = document.createElement("div");
-        cardBody.id = "card-body-" + idNum;
-        cardBody.classList.add("card-body");
-
-        var cardTitle = document.createElement("h5");
-        cardTitle.id = "card-title-" + idNum;
-        cardTitle.classList.add("card-title");
-        cardTitle.appendChild(
-          document.createTextNode("Double-click to change task title.")
-        );
-
-        var cardTitleEditor = document.createElement("h5");
-        var cardTitleEditorInput = document.createElement("input");
-        cardTitleEditorInput.type = "text";
-        cardTitleEditorInput.id = "card-title-editor-" + idNum;
-        cardTitleEditorInput.classList.add("form-control", "d-none");
-        cardTitleEditorInput.value = "";
-
-        var cardText = document.createElement("p");
-        cardText.id = "card-text-" + idNum;
-        cardText.classList.add("card-text");
-        cardText.appendChild(
-          document.createTextNode("Double-click to change task description.")
-        );
-
-        var cardTextEditor = document.createElement("textarea");
-        cardTextEditor.id = "card-text-editor-" + idNum;
-        cardTextEditor.classList.add("form-control", "d-none");
-
-        // Append card body together, then append card body into card div.
-        cardBody.appendChild(cardTitle);
-        cardTitleEditor.appendChild(cardTitleEditorInput);
-        cardBody.appendChild(cardTitleEditor);
-        cardBody.appendChild(cardText);
-        cardBody.appendChild(cardTextEditor);
-        cardDiv.appendChild(cardBody);
-
-        // Get DOM element of create task element.
+        // Add card above create task button.
         var createTaskElem = e.target.parentNode;
         createTaskElem.before(cardDiv);
-
-        // Add event listeners.
-        cardTitle.addEventListener("click", editText);
-        cardTitleEditor.addEventListener("keydown", changeText);
-        cardText.addEventListener("click", editText);
-        cardTextEditor.addEventListener("keydown", changeText);
 
         // Increase numOfCards
         // numOfCards++;
       }
 
-      // Event listener for creating card onclick
+      // Event listener for creating card onclick in each column
       var createTaskCards = document.getElementsByClassName("create-task");
       for (var i = 0; i < createTaskCards.length; i++) {
         createTaskCards[i].addEventListener("click", createTask);

@@ -24,3 +24,21 @@ function showErrorMessage(message) {
   $errorMessage.text(message);
   $errorMessage.show();
 }
+
+function redirectIfLoggedIn() {
+  if (localStorage.user_id) {
+    window.location = `/?id=${localStorage.user_id}`;
+  }
+}
+
+function setIdRedirect(result) {
+  localStorage.user_id = result.id;
+  window.location = `/?id=${result.uid}`;
+}
+
+function logout() {
+  localStorage.removeItem("user_id");
+  $.get(`${AUTH_URL}/logout`).then(result => {
+    window.location = `/login.html`;
+  });
+}

@@ -13,4 +13,11 @@ router.post('/signup', User.createUser);
 
 router.post('/login', User.loginUser);
 
+router.get('/logout', (req,res) => {
+    res.clearCookie('user_id');
+    res.json({
+        message: 'Logged out'
+    })
+});
+
 module.exports = router;

@@ -11,7 +11,7 @@ const pool = new Pool({
 
 const getTasks = (req, res) => {
   if (!isNaN(req.params.id)) {
-    pool.query("SELECT * FROM tasks WHERE user_id = '" + req.params.id + "'", (error, results) => {
+    pool.query("SELECT * FROM tasks WHERE user_id = '" + req.params.id + "' ORDER BY id ASC", (error, results) => {
       if (error) {
         throw error;
       }

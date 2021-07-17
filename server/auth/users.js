@@ -20,6 +20,14 @@ function validUser(user) {
   return validEmail && validPassword;
 }
 
+function setUserIdCookie(req, res, id) {
+  res.cookie("user_id", id, {
+    httpOnly: true,
+    signed: true,
+    secure: true,
+  });
+}
+
 // Internal functions on validating users
 const createUser = (req, res, next) => {
   if (validUser(req.body)) {
@@ -43,6 +51,7 @@ const createUser = (req, res, next) => {
                 if (error) {
                   throw error;
                 }
+                setUserIdCookie(req, res, results.rows[0].user_id);
                 res.status(201).json({
                   id: results.rows[0].user_id,
                   message: "User added to DB.",
@@ -76,11 +85,7 @@ const loginUser = (req, res, next) => {
             .then((result) => {
               var userId = results.rows[0].user_id;
               if (result) {
-                res.cookie("user_id", userId, {
-                  httpOnly: true,
-                  signed: true,
-                  secure: true,
-                });
+                setUserIdCookie(req, res, userId);
                 res.json({
                   id: userId,
                   message: "logged in",
