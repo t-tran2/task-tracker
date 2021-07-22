@@ -17,6 +17,7 @@ function loadTasks(id) {
 
 // redirect to login page if cookie does not match user id.
 function handleError(error) {
+  localStorage.removeItem("user_id");
   window.location = "/login.html";
 }
 

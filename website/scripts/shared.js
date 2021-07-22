@@ -26,14 +26,16 @@ function showErrorMessage(message) {
 }
 
 function redirectIfLoggedIn() {
-  if (localStorage.user_id) {
+  if (localStorage.user_id && document.cookie.length !== 0) {
     window.location = `/?id=${localStorage.user_id}`;
+  } else {
+    localStorage.removeItem("user_id");
   }
 }
 
 function setIdRedirect(result) {
   localStorage.user_id = result.id;
-  window.location = `/?id=${result.uid}`;
+  window.location = `/?id=${result.id}`;
 }
 
 function logout() {

@@ -53,33 +53,32 @@
           </div> -->
           <div
             id="create-task-todo"
-            class="create-task card card-body bg-light p-1"
-          >
-            <div>Click to add a new task</div>
+            class="create-task card card-body bg-light p-2"
+          >Click to add a new task
           </div>
         </div>
         <div id="in-progress-col" class="col">
           <div
             id="create-task-in-progress"
-            class="create-task card card-body bg-light p-1"
+            class="create-task card card-body bg-light p-2"
           >
-            <div>Click to add a new task</div>
+            Click to add a new task
           </div>
         </div>
         <div id="completed-col" class="col">
           <div
             id="create-task-completed"
-            class="create-task card card-body bg-light p-1"
+            class="create-task card card-body bg-light p-2"
           >
-            <div>Click to add a new task</div>
+            Click to add a new task
           </div>
         </div>
         <div id="accepted-col" class="col">
           <div
             id="create-task-accepted"
-            class="create-task card card-body bg-light p-1"
+            class="create-task card card-body bg-light p-2"
           >
-            <div>Click to add a new task</div>
+            Click to add a new task
           </div>
         </div>
       </div>
@@ -92,10 +91,18 @@
     <script>
       // Functions
       function editText(e) {
-        var cardID = e.target.id.slice(-1);
+        // Find 2nd occurance of "-".
+        var nthOccur = 0;
+        var indexDash = 0;
+        while (nthOccur < 0) {
+          indexDash = e.target.id.indexOf("-", indexDash + 1);
+          nthOccur++;
+        }
+
+        var cardID = e.target.id.slice(indexDash + 1);
         var currentCardTitle = document.getElementById(e.target.id);
         var editor = document.getElementById(
-          e.target.id.slice(0, -1) + "editor-" + cardID
+          e.target.id.slice(0, indexDash + 1) + "editor-" + cardID
         );
 
         // Replace editor input with current text.
@@ -118,7 +125,7 @@
 
           var originalCardID = e.target.id.slice(0, indexDash + 1);
 
-          var cardIDNum = e.target.id.slice(-1);
+          var cardIDNum = e.target.id.slice(indexDash + 1);
           var currentCardTitle = document.getElementById(
             originalCardID + cardIDNum
           );
@@ -159,13 +166,13 @@
         var cardElems = document.getElementsByClassName("task");
         var idNum = cardElems.length;
         idNum++;
-        var title = "Double-click to change task title."
-        var text = "Double-click to change task description."
+        var title = "Double-click to change task title.";
+        var text = "Double-click to change task description.";
 
         var cardDiv = createCardDiv(idNum, title, text);
 
         // Add card above create task button.
-        var createTaskElem = e.target.parentNode;
+        var createTaskElem = e.target;
         createTaskElem.before(cardDiv);
 
         // Increase numOfCards
