@@ -94,7 +94,7 @@
         // Find 2nd occurance of "-".
         var nthOccur = 0;
         var indexDash = 0;
-        while (nthOccur < 0) {
+        while (nthOccur < 2) {
           indexDash = e.target.id.indexOf("-", indexDash + 1);
           nthOccur++;
         }
@@ -106,6 +106,9 @@
         );
 
         // Replace editor input with current text.
+        // console.log(cardID);
+        // console.log()
+        // console.log(editor);
         editor.value = currentCardTitle.innerText;
 
         // hide text, show editor
@@ -125,16 +128,23 @@
 
           var originalCardID = e.target.id.slice(0, indexDash + 1);
 
+          // Get card ID.
+          while (nthOccur < 3) {
+            indexDash = e.target.id.indexOf("-", indexDash + 1);
+            nthOccur++;
+          }
           var cardIDNum = e.target.id.slice(indexDash + 1);
+
+          // Get card title DOM.
           var currentCardTitle = document.getElementById(
             originalCardID + cardIDNum
           );
           var editor = document.getElementById(e.target.id);
 
-          // Replace card title input with input.
+          // Replace card title with input.
           currentCardTitle.innerText = editor.value;
 
-          // hide text, show editor
+          // hide editor, show text.
           currentCardTitle.classList.remove("d-none");
           editor.classList.add("d-none");
         }
