@@ -8,6 +8,10 @@ function getUserInfo(id) {
   return $.get(`${API_URL}/user/${id}`);
 }
 
+/**
+ * Queries involving loading, creating, updating and deleting tasks.
+ */
+
 // Load tasks from DB.
 function loadTasks(id) {
   $.get(`${API_URL}/tasks/${id}`, function (results) {
@@ -81,6 +85,9 @@ function createCards(tasks) {
     taskId++;
   }
 }
+
+// Update text.
+function updateCardText()
 
 function parseQuery(query) {
   return query
