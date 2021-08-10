@@ -151,7 +151,7 @@
           // Replace card title with input.
           currentCardTitle.innerText = editor.value;
 
-          // PUT request to db.
+          // PUT request to update title or text in DB.
           if (isTitle) {
             updateCardTitle(cardIDNum, editor.value);
           } else {

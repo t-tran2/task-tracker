@@ -99,12 +99,14 @@ function updateCardTitle(cardID, updatedTitle) {
   });
 }
 
-function updateCardText(cardID, updatedtext) {
+function updateCardText(cardID, updatedText) {
   const params = parseQuery(window.location.search);
   $.ajax({
     url: `${API_URL}/tasks/text-update/${params.id}/${cardID}`,
     type: "PUT",
-    data: `{"updatedText": updatedText}`,
+    data: JSON.stringify({"text": updatedText}),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
     success: function (data) {
       console.log(data);
     },

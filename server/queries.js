@@ -52,9 +52,9 @@ const updateTaskTitle = (req, res) => {
 const updateTaskText = (req, res) => {
   if (!isNaN(req.params.cardID)) {
     const cardID = req.params.cardID;
-    const title = req.body.updatedText;
+    const text = req.body.text;
     const user_id = req.params.id;
-    pool.query("UPDATE tasks SET title = $1 WHERE id = $2 AND user_id = $3", [title, cardID, user_id], (error, results) => {
+    pool.query("UPDATE tasks SET text = $1 WHERE id = $2 AND user_id = $3", [text, cardID, user_id], (error, results) => {
       if (error) {
         throw error;
       }
