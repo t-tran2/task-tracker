@@ -74,15 +74,13 @@ function createCardDiv(id, title, text) {
 
 // Create cards from json returned from DB data.
 function createCards(tasks) {
-  var taskId = 1;
   for (let task of tasks) {
     var columnStatus = task.status;
-    cardDiv = createCardDiv(taskId, task.title, task.text);
+    cardDiv = createCardDiv(task.id, task.title, task.text);
 
     // Add card to correct column.
     var createTaskElem = document.getElementById(`create-task-${columnStatus}`);
     createTaskElem.before(cardDiv);
-    taskId++;
   }
 }
 
