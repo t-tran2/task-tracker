@@ -41,7 +41,8 @@ app.get("/user/:id", users.getUser);
 
 app.get("/tasks/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.getTasks);
 
-app.put("/tasks/:id/:cardID", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.updateTask);
+app.put("/tasks/title-update/:id/:cardID", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.updateTaskTitle);
+app.put("/tasks/title-update/:id/:cardID", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.updateTaskText);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

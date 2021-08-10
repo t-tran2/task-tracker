@@ -54,7 +54,8 @@
           <div
             id="create-task-todo"
             class="create-task card card-body bg-light p-2"
-          >Click to add a new task
+          >
+            Click to add a new task
           </div>
         </div>
         <div id="in-progress-col" class="col">
@@ -126,6 +127,12 @@
             nthOccur++;
           }
 
+          // Determine if title or text is being edited.
+          var firstDash = e.target.id.indexOf("-");
+          const isTitle = e.target.id.slice(firstDash + 1, indexDash).localeCompare("title") == 0;
+          // TODO: delete this check later.
+          console.log(isTitle);
+
           var originalCardID = e.target.id.slice(0, indexDash + 1);
 
           // Get card ID.
@@ -143,6 +150,14 @@
 
           // Replace card title with input.
           currentCardTitle.innerText = editor.value;
+
+          // PUT request to db.
+          if (isTitle) {
+            updateCardTitle(cardIDNum, editor.value);
+          } else {
+            updateCardText(cardIDNum, editor.value);
+          }
+          
 
           // hide editor, show text.
           currentCardTitle.classList.remove("d-none");
