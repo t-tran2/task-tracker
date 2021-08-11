@@ -41,7 +41,7 @@
         <h2 class="col text-center">In-Progress</h2>
         <h2 class="col text-center">Completed</h2>
         <h2 class="col text-center">Accepted</h2>
-        <div id="todo-col" class="col">
+        <div id="todo-col" class="col drag-container">
           <!-- Below is a sample task card. -->
           <!-- <div id="card-1" class="task card my-2">
             <div id="card-body-1" class="card-body">
@@ -58,7 +58,7 @@
             Click to add a new task
           </div>
         </div>
-        <div id="in-progress-col" class="col">
+        <div id="in-progress-col" class="col drag-container">
           <div
             id="create-task-in-progress"
             class="create-task card card-body bg-light p-2"
@@ -66,7 +66,7 @@
             Click to add a new task
           </div>
         </div>
-        <div id="completed-col" class="col">
+        <div id="completed-col" class="col drag-container">
           <div
             id="create-task-completed"
             class="create-task card card-body bg-light p-2"
@@ -74,7 +74,7 @@
             Click to add a new task
           </div>
         </div>
-        <div id="accepted-col" class="col">
+        <div id="accepted-col" class="col drag-container">
           <div
             id="create-task-accepted"
             class="create-task card card-body bg-light p-2"
@@ -89,7 +89,9 @@
     <script src="scripts/shared.js" charset="utf-8"></script>
     <script src="./scripts/tasks.js"></script>
 
+
     <script>
+      
       // Functions
       function editText(e) {
         // Find 2nd occurance of "-".
@@ -284,5 +286,6 @@
       integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
       crossorigin="anonymous"
     ></script>
+    <script src="./scripts/drag-drop.js"></script>>
   </body>
 </html>

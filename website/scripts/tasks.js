@@ -28,7 +28,9 @@ function handleError(error) {
 function createCardDiv(id, title, text) {
   var cardDiv = document.createElement("div");
   cardDiv.id = "card-" + id;
-  cardDiv.classList.add("task", "card", "my-2");
+  cardDiv.classList.add("task", "card", "my-2", "draggable");
+
+  cardDiv.setAttribute('draggable', true);
 
   var cardBody = document.createElement("div");
   cardBody.id = "card-body-" + id;
@@ -68,6 +70,12 @@ function createCardDiv(id, title, text) {
   cardTitleEditor.addEventListener("keydown", changeText);
   cardText.addEventListener("click", editText);
   cardTextEditor.addEventListener("keydown", changeText);
+  cardDiv.addEventListener('dragstart', () => {
+    cardDiv.classList.add('dragging');
+  })
+  cardDiv.addEventListener('dragend', () => {
+    cardDiv.classList.remove('dragging');
+  })
 
   return cardDiv;
 }
@@ -81,6 +89,7 @@ function createCards(tasks) {
     // Add card to correct column.
     var createTaskElem = document.getElementById(`create-task-${columnStatus}`);
     createTaskElem.before(cardDiv);
+    draggables = document.getElementsByClassName("draggable");
   }
 }
 
@@ -126,6 +135,7 @@ function createTask(status, createTaskButton) {
 
       // Add card above create task button.
       createTaskButton.before(cardDiv);
+      draggables = document.getElementsByClassName("draggable");
     }
   );
 }
