@@ -130,8 +130,6 @@
           // Determine if title or text is being edited.
           var firstDash = e.target.id.indexOf("-");
           const isTitle = e.target.id.slice(firstDash + 1, indexDash).localeCompare("title") == 0;
-          // TODO: delete this check later.
-          console.log(isTitle);
 
           var originalCardID = e.target.id.slice(0, indexDash + 1);
 
@@ -187,27 +185,24 @@
       // </div>
       // Creating a new card.
 
-      function createTask(e) {
-        var cardElems = document.getElementsByClassName("task");
-        var idNum = cardElems.length;
-        idNum++;
-        var title = "Double-click to change task title.";
-        var text = "Double-click to change task description.";
+      function createTaskEventListener(e) {
+        // Get status of card.
+        var columnID = e.target.parentNode.id;
+        var indexAfterStat = columnID.indexOf("-");
+        var status = columnID.substring(0, indexAfterStat);
+        if (status.localeCompare("in") == 0) {
+          status = "in-progress";
+        }
 
-        var cardDiv = createCardDiv(idNum, title, text);
-
-        // Add card above create task button.
-        var createTaskElem = e.target;
-        createTaskElem.before(cardDiv);
-
-        // Increase numOfCards
-        // numOfCards++;
+        // Post request to create task in DB and front-end.
+        var createTaskButton = e.target;
+        createTask(status, createTaskButton);
       }
 
       // Event listener for creating card onclick in each column
       var createTaskCards = document.getElementsByClassName("create-task");
       for (var i = 0; i < createTaskCards.length; i++) {
-        createTaskCards[i].addEventListener("click", createTask);
+        createTaskCards[i].addEventListener("click", createTaskEventListener);
       }
     </script>
 

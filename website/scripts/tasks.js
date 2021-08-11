@@ -90,11 +90,11 @@ function updateCardTitle(cardID, updatedTitle) {
   $.ajax({
     url: `${API_URL}/tasks/title-update/${params.id}/${cardID}`,
     type: "PUT",
-    data: JSON.stringify({"title": updatedTitle}),
+    data: JSON.stringify({ title: updatedTitle }),
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (data) {
-      console.log(data);
+      console.log("Updated task title!");
     },
   });
 }
@@ -104,13 +104,30 @@ function updateCardText(cardID, updatedText) {
   $.ajax({
     url: `${API_URL}/tasks/text-update/${params.id}/${cardID}`,
     type: "PUT",
-    data: JSON.stringify({"text": updatedText}),
+    data: JSON.stringify({ text: updatedText }),
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (data) {
-      console.log(data);
+      console.log("Updated task text!");
     },
   });
+}
+
+function createTask(status, createTaskButton) {
+  const params = parseQuery(window.location.search);
+  $.post(
+    `${API_URL}/tasks/create/${params.id}/${status}`,
+    function (data, status) {
+      // Create task card DIV
+      var title = "Double-click to change task title.";
+      var text = "Double-click to change task description.";
+      var idNum = data[0].id;
+      var cardDiv = createCardDiv(idNum, title, text);
+
+      // Add card above create task button.
+      createTaskButton.before(cardDiv);
+    }
+  );
 }
 
 function parseQuery(query) {
