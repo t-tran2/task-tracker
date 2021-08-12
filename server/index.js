@@ -41,9 +41,17 @@ app.get("/user/:id", users.getUser);
 
 app.get("/tasks/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.getTasks);
 
+// Create task cards.
+app.post("/tasks/create/:id/:status", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.createTask);
+
+// Update task cards.
 app.put("/tasks/title-update/:id/:cardID", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.updateTaskTitle);
 app.put("/tasks/text-update/:id/:cardID", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.updateTaskText);
-app.post("/tasks/create/:id/:status", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.createTask);
+
+// Switch ordering of cards.
+app.put("/tasks/placeholder-id/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.toPlaceHolderID);
+app.put("/tasks/switch-curr-id/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.switchCurrCardID);
+app.put("/tasks/switch-other-id/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.switchOtherCardID);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

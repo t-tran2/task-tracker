@@ -10,16 +10,12 @@ dragContainers.forEach(dragContainer => {
         if (status.localeCompare("in") == 0) {
             status = "in-progress"
         }
-        console.log(status);
         if (afterElement == null) {
             var createTaskElem = document.getElementById("create-task-" + status);
             dragContainer.insertBefore(draggable, createTaskElem);
         } else {
             dragContainer.insertBefore(draggable, afterElement);
         }
-    })
-    dragContainer.addEventListener('drop', () => {
-        console.log("success");
     })
 })
 

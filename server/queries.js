@@ -98,9 +98,91 @@ const createTask = (req, res) => {
   });
 };
 
+// Placeholder for id before switching ids.
+const toPlaceHolderID = (req, res) => {
+  if (!isNaN(req.params.id)) {
+    const switchID = req.body.switchID;
+    const user_id = req.params.id;
+    pool.query(
+      "UPDATE tasks SET id = -id WHERE id = $1 AND user_id = $2",
+      [switchID, user_id],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.status(200);
+        res.json(results.rows);
+      }
+    );
+  } else {
+    res.status(500);
+    res.json({
+      id: req.params.id,
+      message: "Invalid ID",
+    });
+  }
+}
+
+const switchCurrCardID = (req, res) => {
+  if (!isNaN(req.params.id)) {
+    const cardID = req.body.cardID;
+    const switchID = req.body.switchID;
+    const user_id = req.params.id;
+    const status = req.body.status;
+    // Update current ID with the ID to switch with.
+    pool.query(
+      "UPDATE tasks SET id = $2, status = $4 WHERE id = $1 AND user_id = $3",
+      [cardID, switchID, user_id, status],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.status(200);
+        res.json(results.rows);
+      }
+    );
+  } else {
+    res.status(500);
+    res.json({
+      id: req.params.id,
+      message: "Invalid ID",
+    });
+  }
+};
+
+const switchOtherCardID = (req, res) => {
+  if (!isNaN(req.params.id)) {
+    const cardID = req.body.cardID;
+    const switchID = -req.body.switchID;
+    const user_id = req.params.id;
+    const status = req.body.status;
+    // Update the other entry with the current ID.
+    pool.query(
+      "UPDATE tasks SET id = $1 WHERE id = $2 AND user_id = $3",
+      [cardID, switchID, user_id],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.status(200);
+        res.json(results.rows);
+      }
+    );
+  } else {
+    res.status(500);
+    res.json({
+      id: req.params.id,
+      message: "Invalid ID",
+    });
+  }
+};
+
 module.exports = {
   getTasks,
   updateTaskTitle,
   updateTaskText,
   createTask,
+  toPlaceHolderID,
+  switchCurrCardID,
+  switchOtherCardID
 };
