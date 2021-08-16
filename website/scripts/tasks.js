@@ -80,8 +80,10 @@ function switchCardID(currentElem) {
     var nextElem = currentElem.nextElementSibling;
     var prevElem = currentElem.previousElementSibling;
   } catch (err) {
+    // Continue if error occurs.
   }
 
+  // Obtain card IDs.
   var currentElemCardID = parseInt(currentElem.id.substring(5), 10);
   var nextElemCardID;
   if (nextElem != null) {
@@ -99,8 +101,8 @@ function switchCardID(currentElem) {
   if (status.localeCompare("in") == 0) {
     status = "in-progress";
   }
+
   if (currentElemCardID > nextElemCardID) {
-    console.log("run THIS")
     // Switch ids
     currentElem.id = "card-" + nextElemCardID;
     nextElem.id = "card-" + currentElemCardID;
@@ -109,13 +111,28 @@ function switchCardID(currentElem) {
     // Recursively call to switch with other ids.
     switchCardID(nextElem);
   } else if (currentElemCardID < prevElemCardID) {
-    // switch ids
+    // Switch ids
     currentElem.id = "card-" + prevElemCardID;
     prevElem.id = "card-" + currentElemCardID;
     switchCardPUTReq(params.id, currentElemCardID, prevElemCardID, status);
 
     // Recurisvely call to switch with other ids.
     switchCardID(prevElem);
+  } else {
+    $.ajax({
+      url: `${API_URL}/tasks/change-status/${params.id}`,
+      type: "PUT",
+      data: JSON.stringify({
+        cardID: currentElemCardID,
+        status: status
+      }),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (data) {
+        console.log("Success changing status.");
+      },
+      async: false
+    });
   }
 }
 // Adds 'draggable' class to target and submits POST request to DB.

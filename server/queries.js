@@ -176,6 +176,32 @@ const switchOtherCardID = (req, res) => {
   }
 };
 
+const changeStatus = (req, res) => {
+  if (!isNaN(req.params.id)) {
+    const cardID = req.body.cardID;
+    const status = req.body.status;
+    const user_id = req.params.id;
+    // Update the other entry with the current ID.
+    pool.query(
+      "UPDATE tasks SET status = $2 WHERE id = $1 AND user_id = $3",
+      [cardID, status, user_id],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.status(200);
+        res.json(results.rows);
+      }
+    );
+  } else {
+    res.status(500);
+    res.json({
+      id: req.params.id,
+      message: "Invalid ID",
+    });
+  }
+};
+
 module.exports = {
   getTasks,
   updateTaskTitle,
@@ -183,5 +209,6 @@ module.exports = {
   createTask,
   toPlaceHolderID,
   switchCurrCardID,
-  switchOtherCardID
+  switchOtherCardID,
+  changeStatus
 };

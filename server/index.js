@@ -52,6 +52,7 @@ app.put("/tasks/text-update/:id/:cardID", authMiddleware.ensureLoggedIn, authMid
 app.put("/tasks/placeholder-id/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.toPlaceHolderID);
 app.put("/tasks/switch-curr-id/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.switchCurrCardID);
 app.put("/tasks/switch-other-id/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.switchOtherCardID);
+app.put("/tasks/change-status/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.changeStatus);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
