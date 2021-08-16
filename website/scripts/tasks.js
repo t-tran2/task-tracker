@@ -26,9 +26,6 @@ function handleError(error) {
 }
 
 function switchCardPUTReq(id, cardID, switchID, status) {
-  console.log(cardID);
-  console.log(switchID);
-  console.log(status);
   $.ajax({
     url: `${API_URL}/tasks/placeholder-id/${id}`,
     type: "PUT",
@@ -38,7 +35,6 @@ function switchCardPUTReq(id, cardID, switchID, status) {
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (data) {
-      console.log("placeholder success");
     },
     async: false
   });
@@ -54,7 +50,6 @@ function switchCardPUTReq(id, cardID, switchID, status) {
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (data) {
-      console.log("switch curr success");
     },
     async: false
   });
@@ -69,7 +64,6 @@ function switchCardPUTReq(id, cardID, switchID, status) {
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (data) {
-      console.log("switch other success");
     },
     async: false
   });
@@ -129,7 +123,6 @@ function switchCardID(currentElem) {
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (data) {
-        console.log("Success changing status.");
       },
       async: false
     });
