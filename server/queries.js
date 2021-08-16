@@ -155,7 +155,6 @@ const switchOtherCardID = (req, res) => {
     const cardID = req.body.cardID;
     const switchID = -req.body.switchID;
     const user_id = req.params.id;
-    const status = req.body.status;
     // Update the other entry with the current ID.
     pool.query(
       "UPDATE tasks SET id = $1 WHERE id = $2 AND user_id = $3",

@@ -40,6 +40,7 @@ function switchCardPUTReq(id, cardID, switchID, status) {
     success: function (data) {
       console.log("placeholder success");
     },
+    async: false
   });
 
   $.ajax({
@@ -55,6 +56,7 @@ function switchCardPUTReq(id, cardID, switchID, status) {
     success: function (data) {
       console.log("switch curr success");
     },
+    async: false
   });
 
   $.ajax({
@@ -69,6 +71,7 @@ function switchCardPUTReq(id, cardID, switchID, status) {
     success: function (data) {
       console.log("switch other success");
     },
+    async: false
   });
 }
 
@@ -122,7 +125,6 @@ function dragendListener(e) {
   // var nextElemCardID = parseInt(nextElem.id.substring(5), 10);
 
   switchCardID(currentElem);
-
   currentElem.classList.remove("dragging");
 }
 
