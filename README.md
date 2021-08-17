@@ -1,6 +1,12 @@
 # Task Tracker
 ![Main image of task tracker app](website/images/task-tracker-main.png)
 
+![gif of task tracker app](website/images/task-tracker-functionality.gif)
+
+Basic Authentication and Authorization.
+![Login page](website/images/login.png)
+
+
 ## Requirements
 - Nodejs
 - Express
