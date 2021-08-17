@@ -35,22 +35,37 @@ Follow the instruction in the above link to:
 You need to create 2 Tables (tasks and users) with the following schema:
 
                                      Table "public.tasks"
- Column  |          Type           | Collation | Nullable |              Default              
+
+ Column  |          Type           | Collation | Nullable |              Default           
+
 ---------+-------------------------+-----------+----------+-----------------------------------
+
  id      | integer                 |           | not null | nextval('tasks_id_seq'::regclass)
+
  status  | character varying(30)   |           |          | 
+
  title   | character varying(100)  |           |          | 
+
  text    | character varying(500)  |           |          | 
+
  user_id | character varying(1000) |           |          | 
 
                                            Table "public.users"
-  Column   |            Type             | Collation | Nullable |                Default                 
+
+  Column   |            Type             | Collation | Nullable |                Default      
+
 -----------+-----------------------------+-----------+----------+----------------------------------------
+
  user_id   | integer                     |           | not null | nextval('users_user_id_seq'::regclass)
+
  email     | character varying(255)      |           | not null | 
+
  password  | character varying(200)      |           | not null | 
+
  date      | timestamp without time zone |           | not null | 
+
  is_active | boolean                     |           |          | true
+
 Indexes:
     "users_pkey" PRIMARY KEY, btree (user_id)
     "users_email_key" UNIQUE CONSTRAINT, btree (email)
@@ -93,6 +108,6 @@ root address. In this example - 'localhost'.
 ### .gitignore
 Ignored .env because it contains sensitive information for DB.
 
-##### cross origin cookies
+#### cross origin cookies
 Make sure root address is the same for node js app and website server. Example:
 'localhost'.
