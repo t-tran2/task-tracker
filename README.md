@@ -1,5 +1,5 @@
 # Task Tracker
-![Main image of task tracker app](https://github.com/t-tran2/task-tracker/tree/master/website/images/task-tracker-main.png)
+![Main image of task tracker app](website/images/task-tracker-main.png)
 
 ## Requirements
 - Nodejs
