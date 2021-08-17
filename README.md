@@ -1,5 +1,5 @@
 # Task Tracker
-![Main image of task tracker app](https://github.com/t-tran2/task-tracker/tree/master/website/images/task-tracker-main.pg?raw=true)
+![Main image of task tracker app](https://github.com/t-tran2/task-tracker/tree/master/website/images/task-tracker-main.png?raw=true)
 
 ## Requirements
 - Nodejs
@@ -10,6 +10,7 @@
 
 ## Setting up Postgresql
 https://blog.logrocket.com/nodejs-expressjs-postgresql-crud-rest-api-example/
+
 Follow the instruction in the above link to:
 - Download postgresql
 - Create database (Name it "task_tracker_db")
@@ -48,6 +49,7 @@ Indexes:
 
 ## Setting up backend server.
 > cd server
+
 > npm install
 
 
@@ -69,6 +71,7 @@ root address. In this example - 'localhost'.
 
 4. Launch backend server
 > cd server
+
 > nodemon index.js
 
 5. Launch website on local host
