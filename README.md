@@ -8,7 +8,6 @@
 ## Basic Authentication and Authorization.
 ![Login page](website/images/task-tracker-login.gif)
 
-
 ## Requirements
 - Nodejs
 - Express
@@ -81,13 +80,18 @@ Indexes:
 above.
 
 2. Create .env file with the following information filled out:
-DB_HOST=
-DB_USER=
-DB_NAME=
-DB_PASS=
-DB_PORT=
 
-COOKIE_SECRET=
+    DB_HOST=
+
+    DB_USER=
+
+    DB_NAME=
+
+    DB_PASS=
+
+    DB_PORT=
+
+    COOKIE_SECRET=
 
 3. Make sure node js app (shared.js and other files), and website server have correct
 root address. In this example - 'localhost'.
