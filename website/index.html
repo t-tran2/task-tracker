@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Bootstrap CSS -->
@@ -70,144 +69,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="scripts/shared.js" charset="utf-8"></script>
     <script src="./scripts/tasks.js"></script>
-
-    <script>
-      // Functions
-      function editText(e) {
-        // Find 2nd occurance of "-".
-        var nthOccur = 0;
-        var indexDash = 0;
-        while (nthOccur < 2) {
-          indexDash = e.target.id.indexOf("-", indexDash + 1);
-          nthOccur++;
-        }
-
-        var cardID = e.target.id.slice(indexDash + 1);
-        var currentCardTitle = document.getElementById(e.target.id);
-        var editor = document.getElementById(
-          e.target.id.slice(0, indexDash + 1) + "editor-" + cardID
-        );
-
-        // Replace editor input with current text.
-        // console.log(cardID);
-        // console.log()
-        // console.log(editor);
-        editor.value = currentCardTitle.innerText;
-
-        // hide text, show editor
-        currentCardTitle.classList.add("d-none");
-        editor.classList.remove("d-none");
-      }
-
-      function changeText(e) {
-        if (e.keyCode === 13) {
-          // Get index of second dash for id name
-          var nthOccur = 0;
-          var indexDash = 0;
-          while (nthOccur < 2) {
-            indexDash = e.target.id.indexOf("-", indexDash + 1);
-            nthOccur++;
-          }
-
-          // Determine if title or text is being edited.
-          var firstDash = e.target.id.indexOf("-");
-          const isTitle =
-            e.target.id
-              .slice(firstDash + 1, indexDash)
-              .localeCompare("title") == 0;
-
-          var originalCardID = e.target.id.slice(0, indexDash + 1);
-
-          // Get card ID.
-          while (nthOccur < 3) {
-            indexDash = e.target.id.indexOf("-", indexDash + 1);
-            nthOccur++;
-          }
-          var cardIDNum = e.target.id.slice(indexDash + 1);
-
-          // Get card title DOM.
-          var currentCardTitle = document.getElementById(
-            originalCardID + cardIDNum
-          );
-          var editor = document.getElementById(e.target.id);
-
-          // Replace card title with input.
-          currentCardTitle.innerText = editor.value;
-
-          // PUT request to update title or text in DB.
-          if (isTitle) {
-            updateCardTitle(cardIDNum, editor.value);
-          } else {
-            updateCardText(cardIDNum, editor.value);
-          }
-
-          // hide editor, show text.
-          currentCardTitle.classList.remove("d-none");
-          editor.classList.add("d-none");
-        }
-        // TODO: Add else if for shift + enter to add line break.
-      }
-      var cardTitle = document.getElementById("card-title-1");
-      var cardTitleEditor = document.getElementById("card-title-editor-1");
-      var cardText = document.getElementById("card-text-1");
-      var cardTextEditor = document.getElementById("card-text-editor-1");
-
-      // TODO: Add loop to add all event listeners
-      // Commented out because these even listeners are no longer needed because no default cards.
-      // cardTitle.addEventListener("click", editText);
-      // cardTitleEditor.addEventListener("keydown", changeText);
-      // cardText.addEventListener("click", editText);
-      // cardTextEditor.addEventListener("keydown", changeText);
-
-      // <div id="card-1" class="task card my-2">
-      //   <div id="card-body-1" class="card-body">
-      //     <h5 id="card-title-1" class="card-title">Card title</h5>
-      //     <h5><input type="text" id="card-title-editor-1" class="form-control d-none" value="" ></h5>
-      //     <p id="card-text-1" class="card-text">Some quick example text t.</p>
-      //     <textarea id="card-text-editor-1" class="form-control d-none"></textarea>
-      //   </div>
-      // </div>
-      // Creating a new card.
-
-      function createTaskEventListener(e) {
-        // Get status of card.
-        var columnID = e.target.parentNode.id;
-        var indexAfterStat = columnID.indexOf("-");
-        var status = columnID.substring(0, indexAfterStat);
-        if (status.localeCompare("in") == 0) {
-          status = "in-progress";
-        }
-
-        // Post request to create task in DB and front-end.
-        var createTaskButton = e.target;
-        createTask(status, createTaskButton);
-      }
-
-      // Event listener for creating card onclick in each column
-      var createTaskCards = document.getElementsByClassName("create-task");
-      for (var i = 0; i < createTaskCards.length; i++) {
-        createTaskCards[i].addEventListener("click", createTaskEventListener);
-      }
-
-      function deleteTask(e) {
-        var cardElem = e.target.parentElement.parentElement;
-        var cardID = cardElem.id.substring(5);
-        cardElem.remove();
-        const params = parseQuery(window.location.search);
-
-        // Delete task in DB.
-        $.ajax({
-          url: `${API_URL}/tasks/delete-task/${params.id}/${cardID}`,
-          type: "DELETE",
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          success: function (data) {
-            console.log("delete success.");
-          },
-        });
-      }
-    </script>
+    <script src="scripts/eventListeners.js"></script>
+    <script src="scripts/createTasks.js"></script>
     <script src="./scripts/drag-drop.js"></script>
-    >
   </body>
 </html>
