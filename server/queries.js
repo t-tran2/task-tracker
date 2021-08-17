@@ -202,6 +202,32 @@ const changeStatus = (req, res) => {
   }
 };
 
+const deleteTask = (req, res) => {
+  if (!isNaN(req.params.id)) {
+    var cardID = req.params.cardID;
+    var user_id = req.params.id;
+
+    // Delete task.
+    pool.query(
+      "DELETE FROM tasks WHERE id = $1 AND user_id = $2",
+      [cardID, user_id],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.status(200);
+        res.json(results.rows);
+      }
+    );
+  } else {
+    res.status(500);
+    res.json({
+      id: req.params.id,
+      message: "Invalid ID",
+    });
+  }
+};
+
 module.exports = {
   getTasks,
   updateTaskTitle,
@@ -210,5 +236,6 @@ module.exports = {
   toPlaceHolderID,
   switchCurrCardID,
   switchOtherCardID,
-  changeStatus
+  changeStatus,
+  deleteTask
 };

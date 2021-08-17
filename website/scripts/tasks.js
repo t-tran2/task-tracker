@@ -149,6 +149,12 @@ function createCardDiv(id, title, text) {
   cardBody.id = "card-body-" + id;
   cardBody.classList.add("card-body");
 
+  // Close button.
+  var closeButton = document.createElement("button");
+  closeButton.setAttribute("type", "button");
+  closeButton.classList.add("btn-close", "float-end");
+  closeButton.setAttribute("aria-label", "Close");
+
   var cardTitle = document.createElement("h5");
   cardTitle.id = "card-title-" + id;
   cardTitle.classList.add("card-title");
@@ -171,6 +177,7 @@ function createCardDiv(id, title, text) {
   cardTextEditor.classList.add("form-control", "d-none");
 
   // Append card body together, then append card body into card div.
+  cardBody.appendChild(closeButton);
   cardBody.appendChild(cardTitle);
   cardTitleEditor.appendChild(cardTitleEditorInput);
   cardBody.appendChild(cardTitleEditor);
@@ -187,6 +194,7 @@ function createCardDiv(id, title, text) {
     cardDiv.classList.add("dragging");
   });
   cardDiv.addEventListener("dragend", dragendListener);
+  closeButton.addEventListener("click", deleteTask);
 
   return cardDiv;
 }

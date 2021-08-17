@@ -54,6 +54,9 @@ app.put("/tasks/switch-curr-id/:id", authMiddleware.ensureLoggedIn, authMiddlewa
 app.put("/tasks/switch-other-id/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.switchOtherCardID);
 app.put("/tasks/change-status/:id", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.changeStatus);
 
+// Delete task cards.
+app.delete("/tasks/delete-task/:id/:cardID", authMiddleware.ensureLoggedIn, authMiddleware.allowAccess, db.deleteTask);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
