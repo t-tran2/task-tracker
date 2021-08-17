@@ -1,10 +1,12 @@
 # Task Tracker
 ![Main image of task tracker app](website/images/task-tracker-main.png)
 
+## Demo
 ![gif of task tracker app](website/images/task-tracker-functionality.gif)
 
-Basic Authentication and Authorization.
-![Login page](website/images/login.png)
+
+## Basic Authentication and Authorization.
+![Login page](website/images/task-tracker-login.gif)
 
 
 ## Requirements
